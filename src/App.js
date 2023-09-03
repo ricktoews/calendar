@@ -3,6 +3,7 @@ import './App.scss';
 import { Routes, Route } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import Calendar from './components/Calendar';
+import Lab from './components/Lab';
 
 function App() {
   const [menuState, setMenuState] = useState(false);
@@ -14,11 +15,11 @@ function App() {
     const handleClick = e => {
       const el = e.target;
       if (navContainerRef.current.contains(el)) {
-          console.log('handleClick clicked in nav menu; leave open');
+        console.log('handleClick clicked in nav menu; leave open');
         setMenuState(true);
       } else {
         // Close outside of nav container. Close menu unless clicked on hamburger icon.
-        if (!hamburgerIconRef.current.contains(el)) {
+        if (!hamburgerIconRef?.current?.contains(el)) {
           setMenuState(false);
         }
       }
@@ -59,17 +60,18 @@ function App() {
   return (
     <div className="App">
       <div ref={navContainerRef} onClick={checkMenuClick} className="nav-container">
-        
+
       </div>
       <div className="fixed-header">
         <header>
-        Calendar
+          Calendar
         </header>
       </div>
       <div className="container app-content">
-      <Routes>
-        <Route path="/" element={<Calendar />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Calendar />} />
+          <Route path="/lab" element={<Lab />} />
+        </Routes>
       </div>
     </div>
   );

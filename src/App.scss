@@ -463,3 +463,21 @@ td {
 .period {
   word-break: break-all;
 }
+
+
+/* This belongs to the Digit component */
+.digit {
+  width: 40px;
+  height: 40px;
+  background: rgb(145, 200, 145);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.digit-pad {
+  display: flex;
+}

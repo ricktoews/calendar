@@ -4,9 +4,8 @@ import { Modal, Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import { generateMonthData } from './calendar-helper';
 import DrawMonth from './CalendarDrawMonth';
-
-const JULIAN_CENTURY_CONST = 19;
-const MONTH_OFFSET_TEMPLATE = [0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5];
+import { MONTH_OFFSET_TEMPLATE, JULIAN_CENTURY_CONST } from '../utils/config';
+import { calcYearConfig, generateYear } from '../utils/calc';
 
 const CalendarMonthGrid = styled.div`
     display: grid;
@@ -118,7 +117,7 @@ function MyVerticallyCenteredModal(props) {
 }
 
 
-
+/*
 const calcYearConfig = (year) => {
   const isJulian = year < 1583;
   let isLeap = false;
@@ -161,6 +160,7 @@ const generateYear = ({ jan, isLeap, year }) => {
   }
   return monthDigits;
 }
+*/
 
 function Year12Digit(props) {
   const { year, isCurrentYear } = props;
