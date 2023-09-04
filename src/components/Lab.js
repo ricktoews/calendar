@@ -1,12 +1,48 @@
 import { useEffect, useRef, useState } from 'react';
 import { MONTH_OFFSET_TEMPLATE, JULIAN_CENTURY_CONST } from '../utils/config';
 import { isLeapYear, generate12DigitCalendarFromYear, generate12DigitCalendarFromOffset } from '../utils/calc';
-import Digit from './Digit';
 
 const STEP_PASS = 'pass';
 const STEP_FAIL = 'fail';
 const ROUND_COMPLETE = 'complete';
 const ROUND_BEGUN = '';
+const OPERATOR_DIVISION = '÷';
+const OPERATOR_ADDITION = '+';
+const OPERATOR_MODULO = '%';
+
+
+function generateYearTable(year, monthOffsets) {
+
+    const mo = [];
+    for (let i = 0; i < 12; i++) {
+        if (monthOffsets.length > i) {
+            mo.push(monthOffsets.substring(i, i + 1));
+        } else {
+            mo.push('');
+        }
+    }
+    return <table className="calendar-completion">
+        <thead>
+            <tr>
+                <th colSpan="3">{year}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><th>Jan</th><th>Feb</th><th>Mar</th></tr>
+            <tr><td>{mo[0]}</td><td>{mo[1]}</td><td>{mo[2]}</td></tr>
+
+            <tr><th>Apr</th><th>May</th><th>Jun</th></tr>
+            <tr><td>{mo[3]}</td><td>{mo[4]}</td><td>{mo[5]}</td></tr>
+
+            <tr><th>Jul</th><th>Aug</th><th>Sep</th></tr>
+            <tr><td>{mo[6]}</td><td>{mo[7]}</td><td>{mo[8]}</td></tr>
+
+            <tr><th>Oct</th><th>Nov</th><th>Dec</th></tr>
+            <tr><td>{mo[9]}</td><td>{mo[10]}</td><td>{mo[11]}</td></tr>
+        </tbody>
+    </table>
+
+}
 
 function Lab() {
     const twoDigitYearRef = useRef();
@@ -24,7 +60,7 @@ function Lab() {
     const [mod7YearOffset, setMod7YearOffset] = useState(0);
     const [centuryOffset, setCenturyOffset] = useState(0);
     const [yearOffset, setYearOffset] = useState(0);
-    const [calendarCompletion, setCalendarCompletion] = useState('');
+    const [mOffsets, setMOffsets] = useState('');
     const [answerKey, setAnswerKey] = useState('');
 
     useEffect(() => {
@@ -42,8 +78,8 @@ function Lab() {
         setRawYearOffset(0);
         setMod7YearOffset(0);
         setCenturyOffset(0);
-        setYearOffset(0)
-        setCalendarCompletion('');
+        setYearOffset(0);
+        setMOffsets('');
         setAnswerKey('');
     }
 
@@ -117,26 +153,9 @@ function Lab() {
         if (value === answerKey) {
             setRoundStatus(ROUND_COMPLETE);
         }
-        setCalendarCompletion(value);
+        setMOffsets(value);
     }
-    /*
-        const handleDigitClick = (d) => {
-            console.log('====> Clicked', d);
-            const value = calendarCompletion + d;
-            console.log(`====> handleDigitClick ${value}, ${answerKey}`);
-            if (value === answerKey) {
-                setRoundStatus(ROUND_COMPLETE);
-            }
-            setCalendarCompletion(calendarCompletion + d);
-        }
-    
-        const digitClickUndo = e => {
-            e.stopPropagation();
-            const digits = calendarCompletion.split('');
-            digits.pop();
-            setCalendarCompletion(digits.join(''));
-        }
-    */
+
     useEffect(() => {
         calcYearOffset(twoDigitYear, isLeap, leapDays, centuryOffset);
     }, [twoDigitYear, isLeap, leapDays, centuryOffset]);
@@ -153,23 +172,51 @@ function Lab() {
         let stepCode = '';
         switch (step) {
             case 0:
-                stepCode = <section>First, Is it a leap year? <button onClick={handleBtnLeapYear}>Leap year</button> <button onClick={handleBtnNotLeapYear}>Not leap year</button></section>
+                stepCode = <section className="grid-container">
+                    <div><div className="step-number">Step 1</div></div>
+                    <div>Is {year} a leap year?</div>
+                    <div></div>
+                    <div><button onClick={handleBtnLeapYear}>Leap year</button> <button onClick={handleBtnNotLeapYear}>Not leap year</button></div>
+                </section >
                 break;
 
             case 1:
-                stepCode = <section>Second, What is the two-digit year divided by 4, ignoring any remainder? <input id="leap-days" type="number" pattern="\d*" ref={leapDaysRef} onChange={handleLeapDays} style={{ width: '50px' }} /></section>
+                stepCode = <section className="grid-container">
+                    <div><div className="step-number">Step 2</div></div>
+                    <div>Find the number of leap days.</div>
+                    <div></div>
+                    <div className="calculation"><div className="large-number">{twoDigitYear}</div> <div className="arithmetic-op">{OPERATOR_DIVISION}</div> <div className="large-number">4</div> <input id="leap-days" type="number" pattern="\d*" ref={leapDaysRef} onChange={handleLeapDays} style={{ width: '50px' }} /></div>
+                </section>
                 break;
 
             case 2:
-                stepCode = <section>Third, What is the sum of the two-digit year and the the year divided by 4? <input id="raw-year-offset" type="number" pattern="\d*" onChange={handleRawYearOffset} style={{ width: '50px' }} /></section>
+                stepCode = <section className="grid-container">
+                    <div><div className="step-number">Step 3</div></div>
+                    <div>Find the year offset.</div>
+                    <div></div>
+                    <div className="calculation">
+                        <div className="large-number">{twoDigitYear}</div> <div className="arithmetic-op">{OPERATOR_ADDITION}</div> <div className="large-number">{leapDays}</div> <input id="raw-year-offset" type="number" pattern="\d*" onChange={handleRawYearOffset} style={{ width: '50px' }} /></div>
+                </section>
                 break;
 
             case 3:
-                stepCode = <section>Fourth, What is the above sum, modulo 7? <input id="year-offset" type="number" pattern="\d*" onChange={handleMod7YearOffset} style={{ width: '50px' }} /></section>
+                stepCode = <section className="grid-container">
+                    <div><div className="step-number">Step 4</div></div>
+                    <div>Reduce the Year Offset.</div>
+                    <div></div>
+                    <div className="calculation"><div className="large-number">{rawYearOffset}</div> <div className="arithmetic-op">{OPERATOR_MODULO}</div> <div className="large-number">7</div> <input id="year-offset" type="number" pattern="\d*" onChange={handleMod7YearOffset} style={{ width: '50px' }} /></div>
+                </section>
                 break;
 
             case 4:
-                stepCode = <section>Finally, Complete the 12-digit Calendar<input id="calendar-input" type="number" pattern="\d*" onChange={handleCalendarInput} style={{ width: '200px' }} /></section>
+                stepCode = <section className="grid-container">
+                    <div><div className="step-number">Step 5</div></div>
+                    <div>Complete the 12-digit Calendar </div>
+                    <div>{mOffsets.length > 0 && generateYearTable(year, mOffsets)}</div>
+                    <div className="align-top"><input id="calendar-input" type="number" pattern="\d*" onChange={handleCalendarInput} style={{ width: '200px' }} />
+                    </div>
+
+                </section>
                 break;
 
             case 5:
@@ -181,25 +228,15 @@ function Lab() {
         return stepCode;
     }
 
-    return (<div>
+    return (<div className="calendar-lab">
         <h3>Generate the calendar for {year}.</h3>
         {currentStep > 0 ? <p>Progress: Leap year {isLeap}, Leap days {leapDays} Year offset {mod7YearOffset}</p> : null}
-        <p>Calendar completion: <strong>{calendarCompletion}</strong></p>
+
         <hr />
 
         {showStep(currentStep)}
 
         <hr />
-        <div style={{ display: 'none' }}>
-            {/*
-            <div className="digit-pad">
-                {[0, 1, 2, 3, 4, 5, 6].map((item, key) =>
-                    <Digit key={key} digitCallback={handleDigitClick} digit={item}></Digit>)}
-                <button onClick={digitClickUndo}>Undo</button>
-            </div>
-*/}
-            <hr />
-        </div>
 
         <div style={{ display: 'none' }}>{generate12DigitCalendarFromOffset(yearOffset, isLeap)}</div>
 
@@ -207,7 +244,6 @@ function Lab() {
             <p>You did it!</p> : null}
 
         <p><strong>ANSWER KEY</strong>: {answerKey}</p>
-
 
         {year < 2000 || year > 2099 ? <>
             <div>Century Offset</div>

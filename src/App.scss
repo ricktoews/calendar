@@ -28,6 +28,12 @@ $palette-grey-3: #9a9a9a;
   --palette-grey-3: #9a9a9a;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 
 h1 {
   color: $palette-3;
@@ -467,8 +473,9 @@ td {
 
 /* This belongs to the Digit component */
 .digit {
-  width: 40px;
-  height: 40px;
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
   background: rgb(145, 200, 145);
   color: white;
   border-radius: 50%;
@@ -480,4 +487,108 @@ td {
 
 .digit-pad {
   display: flex;
+}
+
+/* For the Calendar Lab */
+.calendar-completion {
+  font-size: .75rem;
+
+  thead th {
+    text-align: center;
+  }
+
+  tbody th {
+    font-size: .6rem;
+    text-align: center;
+  }
+
+  tbody td {
+    text-align: center;
+  }
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  /* First column auto-sized, second column takes remaining space */
+  grid-template-rows: auto auto;
+  /* Two rows with auto-sizing */
+  gap: 10px;
+  /* Adjust the gap between cells as needed */
+}
+
+.grid-item {
+  border: 1px solid #ccc;
+  /* Add a border for cell separation */
+  padding: 10px;
+  /* Add padding for spacing within cells */
+}
+
+.grid-container>div {
+  display: flex;
+  align-items: center;
+}
+
+.grid-container .align-top {
+  display: flex;
+  align-items: start;
+}
+
+.step-number {
+  margin-right: 10px;
+  background: rgb(209, 25, 246);
+  color: white;
+  border-radius: 10px;
+  font-size: .75rem;
+  padding: 0 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+section .calculation {
+  display: flex;
+  align-items: center;
+}
+
+.large-number {
+  width: 50px;
+  height: 50px;
+  background: rgb(145, 200, 145);
+  font-size: 1.75rem;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.arithmetic-op {
+  width: 36px;
+  height: 36px;
+  background: rgb(145, 200, 145);
+  font-size: 1.75rem;
+  margin: 0 5px;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+section .calculation input {
+  margin-left: 10px;
+  outline: none;
+}
+
+.calendar-lab button {
+  border: 1px solid #067c3b;
+  background: rgb(145, 200, 145);
+  color: white;
+  border-radius: 10px;
+  margin: 0 5px;
+
 }
