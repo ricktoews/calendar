@@ -2,11 +2,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import { Routes, Route } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
+import Hamburger from './components/Hamburger';
 import Calendar from './components/Calendar';
-import Lab from './components/Lab';
+import CalendarPractice from './components/Lab';
 
 function App() {
   const [menuState, setMenuState] = useState(false);
+  const [hamburgerClass, setHamburgerClass] = useState('hamburger-nav');
 
   const navContainerRef = useRef(null);
   const hamburgerIconRef = useRef(null);
@@ -44,8 +46,18 @@ function App() {
 
   }, [menuState]);
 
-  const toggleMenu = () => {
-    console.log('toggleMenu');
+  const hamburgerClick = () => {
+    console.log('hamburger clicked', hamburgerClass);
+    if (hamburgerClass === 'hamburger-nav') {
+      setHamburgerClass('hamburger-nav hamburger-on');
+    } else {
+      setHamburgerClass('hamburger-nav');
+    }
+  };
+
+  const toggleMenu = (e) => {
+    e.stopPropagation();
+    console.log('toggleMenu', !menuState);
     setMenuState(!menuState);
   }
 
@@ -58,23 +70,31 @@ function App() {
   }
 
   return (
+
     <div className="App">
       <div ref={navContainerRef} onClick={checkMenuClick} className="nav-container">
-
+        <nav>
+          <ul>
+            <li><a href="/">Calendar</a></li>
+            <li><a href="/lab">Practice</a></li>
+          </ul>
+        </nav>
       </div>
       <div className="fixed-header">
         <header>
+          <Hamburger onClick={toggleMenu} />
           Calendar
         </header>
       </div>
       <div className="container app-content">
         <Routes>
           <Route path="/" element={<Calendar />} />
-          <Route path="/lab" element={<Lab />} />
+          <Route path="/lab" element={<CalendarPractice />} />
         </Routes>
       </div>
     </div>
   );
+
 }
 
 export default App;
