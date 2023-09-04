@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import Hamburger from './components/Hamburger';
 import Calendar from './components/Calendar';
@@ -75,8 +75,8 @@ function App() {
       <div ref={navContainerRef} onClick={checkMenuClick} className="nav-container">
         <nav>
           <ul>
-            <li><a href="/">Calendar</a></li>
-            <li><a href="/lab">Practice</a></li>
+            <li><Link to="/" onClick={toggleMenu}>Calendar</Link></li>
+            <li><Link to="/lab" onClick={toggleMenu}>Practice</Link></li>
           </ul>
         </nav>
       </div>
