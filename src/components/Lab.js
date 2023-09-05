@@ -285,22 +285,21 @@ function Lab() {
         <hr />
 
         <p>Skip steps? Enter the offsets for January and March.</p>
+        <div style={{ display: 'flex' }}>
+            <div><input ref={janMarRef} type="text" style={{ width: '50px' }} /> <button onClick={skipSteps}>Skip Steps</button></div>
 
-        <div><input ref={janMarRef} type="text" style={{ width: '50px' }} /> <button onClick={skipSteps}>Skip Steps</button></div>
+            <div>{roundStatus === ROUND_COMPLETE && generateYearTable(year, mOffsets)}</div>
 
-        <div>{roundStatus === ROUND_COMPLETE && generateYearTable(year, mOffsets)}</div>
-
-        <div style={{ display: 'none' }}>
-            <p ref={answerRef} className="hide-answer"><strong>ANSWER</strong>: {answerKey}</p>
+            <div style={{ display: 'none' }}>
+                <p ref={answerRef} className="hide-answer"><strong>ANSWER</strong>: {answerKey}</p>
+            </div>
         </div>
-
         <hr />
 
-        {showStep(currentStep).map(step => step)}
+        {roundStatus !== ROUND_COMPLETE &&
+            showStep(currentStep).map(step => step)}
 
         <hr />
-
-        <div style={{ display: 'none' }}>{generate12DigitCalendarFromOffset(yearOffset, isLeap)}</div>
 
         {year < 2000 || year > 2099 ? <>
             <div>Century Offset</div>
