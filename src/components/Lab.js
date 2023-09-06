@@ -69,10 +69,32 @@ function Lab() {
         getRandomYear()
     }, []);
 
+    useEffect(() => {
+        calcYearOffset(twoDigitYear, isLeap, leapDays, centuryOffset);
+    }, [twoDigitYear, isLeap, leapDays, centuryOffset]);
+
+    useEffect(() => {
+        //        console.log(`====> Step ${currentStep}, status ${stepStatus}`);
+        if (stepStatus === STEP_PASS) {
+            setCurrentStep(currentStep + 1);
+            setStepStatus('');
+        }
+    }, [stepStatus]);
+
+    useEffect(() => {
+        if (roundStatus === ROUND_BEGUN) {
+            resetRefs();
+        }
+    }, [roundStatus]);
+
     const calcTwoDigitYear = y => y % 100;
 
-    function reset() {
+    function resetRefs() {
+        answerRef.current.classList.add('hide-answer');
         janMarRef.current.value = '';
+    }
+
+    function reset() {
         setRoundStatus(ROUND_BEGUN);
         setCurrentStep(0);
         setStepStatus('')
@@ -84,7 +106,6 @@ function Lab() {
         setYearOffset(0);
         setMOffsets('');
         setAnswerKey('');
-        answerRef.current.classList.add('hide-answer');
     }
 
     function getRandomYear() {
@@ -162,31 +183,16 @@ function Lab() {
 
     const skipSteps = e => {
         const janOffset = answerKey.substring(0, 1);
+        const febOffset = answerKey.substring(1, 2);
         const marOffset = answerKey.substring(2, 3);
         const valToCheck = janMarRef.current.value;
-        const [jan, mar] = valToCheck.split(/[,\s]+/);
-        console.log('====> Skipping? jan, mar', jan, mar);
-        if (jan === janOffset && mar === marOffset) {
+        const [jan, feb, mar] = valToCheck.split('');
+        console.log('====> Skipping? jan, feb, mar', jan, feb, mar);
+        if (jan === janOffset && feb === febOffset && mar === marOffset) {
             setRoundStatus(ROUND_COMPLETE);
             setMOffsets(answerKey);
             answerRef.current.classList.remove('hide-answer');
         }
-    }
-
-    useEffect(() => {
-        calcYearOffset(twoDigitYear, isLeap, leapDays, centuryOffset);
-    }, [twoDigitYear, isLeap, leapDays, centuryOffset]);
-
-    useEffect(() => {
-        //        console.log(`====> Step ${currentStep}, status ${stepStatus}`);
-        if (stepStatus === STEP_PASS) {
-            setCurrentStep(currentStep + 1);
-            setStepStatus('');
-        }
-    }, [stepStatus]);
-
-    function generateStep(step) {
-
     }
 
     function showStep(step) {
@@ -284,22 +290,22 @@ function Lab() {
 
         <hr />
 
-        <p>Skip steps? Enter the offsets for January and March.</p>
-        <div style={{ display: 'flex' }}>
-            <div><input ref={janMarRef} type="text" style={{ width: '50px' }} /> <button onClick={skipSteps}>Skip Steps</button></div>
+        <div>{roundStatus === ROUND_COMPLETE && generateYearTable(year, mOffsets)}</div>
 
-            <div>{roundStatus === ROUND_COMPLETE && generateYearTable(year, mOffsets)}</div>
+        {roundStatus !== ROUND_COMPLETE && <>
+            <p>Skip steps? Enter the offsets for January, February, and March.</p>
+            <div style={{ display: 'flex' }}>
+                <div><input ref={janMarRef} type="number" pattern="\d+" style={{ width: '50px' }} /> <button onClick={skipSteps}>Skip Steps</button></div>
 
-            <div style={{ display: 'none' }}>
-                <p ref={answerRef} className="hide-answer"><strong>ANSWER</strong>: {answerKey}</p>
+                <div style={{ display: 'none' }}>
+                    <p ref={answerRef} className="hide-answer"><strong>ANSWER</strong>: {answerKey}</p>
+                </div>
             </div>
-        </div>
+        </>}
         <hr />
 
-        {roundStatus !== ROUND_COMPLETE &&
-            showStep(currentStep).map(step => step)}
-
-        <hr />
+        {roundStatus !== ROUND_COMPLETE && (<>{showStep(currentStep).map(step => step)}<hr /></>)
+        }
 
         {year < 2000 || year > 2099 ? <>
             <div>Century Offset</div>
