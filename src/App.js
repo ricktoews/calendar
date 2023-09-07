@@ -5,6 +5,7 @@ import { useEffect, useState, useRef } from 'react';
 import Hamburger from './components/Hamburger';
 import Calendar from './components/Calendar';
 import CalendarPractice from './components/Lab';
+import Instructions from './components/Instructions';
 
 function App() {
   const [menuState, setMenuState] = useState(false);
@@ -77,6 +78,7 @@ function App() {
           <ul>
             <li><Link to="/" onClick={toggleMenu}>Calendar</Link></li>
             <li><Link to="/lab" onClick={toggleMenu}>Practice</Link></li>
+            <li><Link to="/instructions" onClick={toggleMenu}>Instructions</Link></li>
           </ul>
         </nav>
       </div>
@@ -90,6 +92,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Calendar />} />
           <Route path="/lab" element={<CalendarPractice />} />
+          <Route path="/instructions" element={<Instructions />} />
         </Routes>
       </div>
     </div>
