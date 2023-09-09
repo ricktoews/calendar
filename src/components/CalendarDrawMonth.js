@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { MONTH_NAMES } from '../utils/config';
 
 const CSSRoot = document.querySelector(':root');
 const CSSRootStyle = getComputedStyle(CSSRoot);
@@ -7,14 +8,7 @@ const CSSRootStyle = getComputedStyle(CSSRoot);
 const getCSSVar = cssVarName => {
 	let result = CSSRootStyle.getPropertyValue(cssVarName);
 	return result;
-} 
-
-const monthName = [
-  'January', 'February', 'March',
-  'April', 'May', 'June',
-  'July', 'August', 'September',
-  'October', 'November', 'December'
-];
+}
 
 const MonthWrapper = styled.div`
 	position: relative;
@@ -72,7 +66,7 @@ const DateCell = styled.div`
 `;
 
 function DrawMonth(props) {
-	const [ monthData, setMonthData ] = useState(props.monthData);
+	const [monthData, setMonthData] = useState(props.monthData);
 
 	useEffect(() => {
 		setMonthData(props.monthData);
@@ -80,15 +74,15 @@ function DrawMonth(props) {
 
 	const generateHeader = () => {
 		return (<MonthHeader>
-		          <MonthMasthead>{monthName[monthData.month]}</MonthMasthead>
-		        </MonthHeader>); 
+			<MonthMasthead>{MONTH_NAMES[monthData.month]}</MonthMasthead>
+		</MonthHeader>);
 	}
 
 	const drawDate = date => {
 		var dateClass = date.dt === '' ? `blank` : '';
 		return <DateCell key={date.ndx}>
-		         <div className={dateClass}>{date.dt}</div>
-		       </DateCell>
+			<div className={dateClass}>{date.dt}</div>
+		</DateCell>
 	}
 
 	const buildMonthRowArray = dates => {
@@ -98,7 +92,7 @@ function DrawMonth(props) {
 		var rowNdx = 0;
 		dates.forEach((d, ndx) => {
 			if (ndx > 0 && ndx % 7 === 0) rowNdx++;
-   			rows[rowNdx].push((d === -1 ? { ndx: ndx, dt: '' } : { ndx: ndx, dt: d } ));
+			rows[rowNdx].push((d === -1 ? { ndx: ndx, dt: '' } : { ndx: ndx, dt: d }));
 		});
 		return rows;
 	}
@@ -106,19 +100,19 @@ function DrawMonth(props) {
 	const monthRows = dates => {
 		var rows = buildMonthRowArray(dates);
 		return <div>
-		         {rows.map((row, key) => {
-		           return <MonthRow key={key}>
-		                    {row.map(date => { return drawDate(date); })}
-		                  </MonthRow>
-		         })}
-		       </div>
-    
+			{rows.map((row, key) => {
+				return <MonthRow key={key}>
+					{row.map(date => { return drawDate(date); })}
+				</MonthRow>
+			})}
+		</div>
+
 	}
 
 	const generateCalendar = () => {
 		var blanks = monthData.blanks;
 		var monthDays = monthData.days;
-		var dates = ['S','M','T','W','T','F','S'];
+		var dates = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 		for (let i = 0; i < blanks; i++) dates.push(-1);
 		for (let i = 1; i <= monthDays; i++) dates.push(i);
 		var html = monthRows(dates);
@@ -126,10 +120,10 @@ function DrawMonth(props) {
 	}
 
 	return <MonthWrapper>
-	         <MonthDigit>{monthData.blanks}</MonthDigit>
-	         {generateHeader()}
-	         {generateCalendar()}
-	       </MonthWrapper>;
+		<MonthDigit>{monthData.blanks}</MonthDigit>
+		{generateHeader()}
+		{generateCalendar()}
+	</MonthWrapper>;
 }
 
 export default DrawMonth;
