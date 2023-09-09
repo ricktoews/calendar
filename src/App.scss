@@ -414,6 +414,53 @@ section .calculation input {
   align-items: center;
 }
 
+.weekly-cycle-grid {
+  display: inline-grid;
+  grid-template-columns: repeat(7, auto);
+  border: 1px solid #aaaaaa;
+  border-radius: 5px;
+}
+
+.weekly-cycle-grid>div:not(.weekday-label) {
+  border: 1px solid #eee;
+  width: 50px;
+  height: 45px;
+  padding-right: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.weekly-cycle-grid>div>span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(209, 25, 246);
+  border-radius: 50%;
+  color: white;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.weekly-cycle-grid>div>span.fade {
+  opacity: 0;
+}
+
+.weekly-cycle-grid>.weekday-label {
+  height: 20px;
+  width: 50px;
+  color: white;
+  font-size: .75em;
+  text-align: center;
+  background: var(--palette-4);
+}
+
+.weekly-cycle-grid>.weekday-label.matched-day {
+  background: var(--palette-3);
+}
+
 .year-example {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

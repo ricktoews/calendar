@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { calc12DigitYear } from "./calendar-helper";
 import { MONTH_NAMES, WEEKDAYS } from "../utils/config";
 
@@ -52,32 +53,114 @@ const illustrateMonth = (monthNdx, year) => {
     return code;
 }
 
+
+const showDayInWeeklyCycle = (day) => {
+    const days = [...Array(day).keys()].map(d => d + 1);
+    const thisDay = (day - 1) % 7;
+    const code = <div className="weekly-cycle-grid">
+        {WEEKDAYS.map((wd, ndx) => {
+            let classes = 'weekday-label';
+            if (ndx === thisDay) classes += ' matched-day';
+            return <div key={wd} className={classes}>{wd}</div>
+        })}
+        {days.map((day, key) => {
+            return <div key={key}><span>{day}</span></div>
+        })}
+    </div>
+    return code;
+}
+
 function Instructions() {
+    const [dayInWeeklyCycle, setDayInWeeklyCycle] = useState(30);
+    const [weeklyCycle, setWeeklyCycle] = useState(null);
+
+    useEffect(() => {
+        setWeeklyCycle(showDayInWeeklyCycle(30));
+    }, []);
+
+    const reduceDayInWeeklyCycle = (e) => {
+        console.log('====> set cycle for day', dayInWeeklyCycle);
+        if (dayInWeeklyCycle > 7) {
+            const code = showDayInWeeklyCycle(dayInWeeklyCycle - 7);
+            setWeeklyCycle(code);
+            setDayInWeeklyCycle(dayInWeeklyCycle - 7);
+        }
+    }
+
+    const resetDayInWeeklyCycle = (e) => {
+        const { days } = e.currentTarget.dataset;
+        console.log('====> resetDayInWeeklyCycle', days);
+        setDayInWeeklyCycle(days);
+        const code = showDayInWeeklyCycle();
+        setWeeklyCycle(code);
+    }
+
+
     return (<div>
+
         <h1>The 12-Digit Calendar</h1>
 
         <h2>Introduction</h2>
 
-        <p>The concept of the 12-digit calendar is simple. Suppose you want to know what day of the week New Year's day, 2025 falls on. All you need to do is add the date to the "month offset." The sum is the position of the day within the weekly cycle, with Sunday being the first day of the week.</p>
+        <p>The concept of the 12-digit calendar is simple. Suppose you want to know what day of the week New Year's day, 2025 falls on. All you need to do is add the <em>date</em> to the <em>month offset</em>. The sum is the position of the day within the weekly cycle, with Sunday being the first day of the week. The month offset for January 2025 is 3.</p>
 
-        <p>The month offset is a number in the range of 0 to 6. For January 2025, the month offset is 3. To find the day of the week for January 1, 2025, add 1 to 3, for a sum of 4. So January 1, 2025 is on the 4th day of the week, or Wednesday.</p>
+        <p>So, January 1, 2025: <em>date</em> (1) + <em>month offset</em> (3) = day within weekly cycle (4):</p>
 
-        <p>Now, suppose you wanted July 4, 2023. The month offset for July 2023 is 6. The sum of 6 and 4 is 10. What's the 10th day of the week? If the first day is Sunday and the seventh day is Saturday, what's the eighth day? It's back to Sunday. So the ninth day is Monday, and the 10th day is Tuesday. </p>
+        <div>{showDayInWeeklyCycle(4)}</div>
 
-        <p>Notice that the 10th day is the same as the third day. This is because every seven days, the weekly cycle starts over. It doesn't matter how many weekly cycles there are in your sum: all that matters is the number of days into the weekly cycle a day is. So the 10th day is the same as the 3rd day, because 10 divided by 7 leaves a remainder of 3.</p>
-
-        <p>Often, when you add the date to the month offset, you'll get a number that's greater than 7. All you need to do is divide the number by 7 and take the remainder. The remainder is the day of the week. So the 22nd day is the same as the 1st day, the 47th day is the same as the 5th day, the 56th day is the same as the 7th day, and so on.</p>
-
-        <p>Yes, you will want to be comfortable with the 7s in the multiplcation table so you can easily find remainders. Incidentally, the word for the remainder, divided by some number is "modulo." For example, 10 modulo 7 is 3. We'll be using that word a lot.</p>
-
-
-        <h2>The Month Offset</h2>
+        <p>So January 1, 2025 is a Wednesday. Here's a calendary for January, 2025:</p>
 
         {illustrateMonth(0, 2025)}
 
-        <p>If you've looked at a standard month calendar, you've noticed that different months start on different days of the week and that most have a certain number of empty spaces before the first day. For example, January of 2025 starts on a Wendesday, so the spaces under Sunday, Monday, and Tuesday are blank. The number of blank spaces is the "month offset." For January, 2025, there are three blank spaces before the first day of the month, so the month offset is 3.</p>
+        <p>Notice that Sunday, Monday, and Tuesday are blank for the first row, so that January 2025 begins on Wednesday. The number of blank days is the <em>month offset</em>.</p>
 
+        <p>Let's look at another example. How about December 25, 2023. In this case, the month offset is 5. So 25 + 5 = 30. The 30th day in the weekly cycle is Monday:</p>
 
+        <div>{showDayInWeeklyCycle(30)}</div>
+
+        <p>Here's the calendar for December 2023:</p>
+
+        {illustrateMonth(11, 2023)}
+
+        <p>Of course, we don't really count out 30 days to reach Monday. Let's look at the cycles again.</p>
+
+        <div>{showDayInWeeklyCycle(30)}</div>
+
+        <p>Notice that there are four complete rows of weekly cycles before the last one, but that the last one is really all you need. To get that, you just divide the 30 by 7 and take the remainder. This leaves you with 2:</p>
+
+        <div>{showDayInWeeklyCycle(30 % 7)}</div>
+
+        <h2>The Month Offset</h2>
+
+        <p>So the question is, when we want the day of the week for a date, how do we get the month offset?</p>
+
+        <p>The process is fairly straightforward. There are a couple of pieces of information you need: The <em>generic month offset</em>, and the <em>year offset</em>. As with the sum of the month offset and the date, these numbers all correspond to a position in the weekly cycle. This means that if a number you're working with is greater than 7, you can simply divide by 7 and take the remainder, as illustrated above.</p>
+
+        <p>You can calculate the year offset, but you will simply need to learn the generic month offsets.</p>
+
+        <h3>Generic Month Offsets</h3>
+        <div className="month-offsets">
+            <div>January: 0</div>
+            <div>February: 3</div>
+            <div>March: 3</div>
+            <div>April: 6</div>
+            <div>May: 1</div>
+            <div>June: 4</div>
+            <div>July: 6</div>
+            <div>August: 2</div>
+            <div>September: 5</div>
+            <div>October: 0</div>
+            <div>November: 3</div>
+            <div>December: 5</div>
+        </div>
+
+        <h3>Year Offsets</h3>
+
+        <p>To get the year offset, use the two-digit year. Divide the year by 4 (ignore any remainder), and add the result to the year. For example, for 2025, divide 25 by 4, giving you 6, and add that to 25. So the year offset for 2025 is 31. But since 31 divided by 7 leaves a remainder of 3, the year offset for 2025 is 3.</p>
+
+        <h3>Month Offset</h3>
+
+        <p>The month offset is the sum of the <em>generic month offset</em> and the <em>year offset</em>.</p>
 
     </div>)
 }
