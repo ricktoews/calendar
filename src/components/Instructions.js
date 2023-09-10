@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { calc12DigitYear } from "./calendar-helper";
-import { MONTH_NAMES, WEEKDAYS } from "../utils/config";
+import { calc12DigitYear, isLeap } from "./calendar-helper";
+import { MONTH_DAYS, MONTH_NAMES, WEEKDAYS } from "../utils/config";
 import IllustrateWeeklyCycle from "./IllustrateWeeklyCycle";
 
 const generateMonthDates = (offset, days) => {
@@ -38,7 +38,8 @@ const illustrateMonth = (monthNdx, year) => {
     const monthHeading = MONTH_NAMES[monthNdx] + ' ' + year;
     const monthOffsets = calc12DigitYear(year);
     const monthOffset = monthOffsets[monthNdx];
-    const Jan2025 = generateMonthDates(monthOffset, 31);
+    const leapDay = isLeap(year) ? 1 : 0;
+    const Jan2025 = generateMonthDates(monthOffset, MONTH_DAYS[monthNdx] + leapDay);
     const offsetOverlay = generateMonthOffsetOverlay(monthOffset);
     let isMonthOffset = true;
     const code = <div className="month-grid">
@@ -161,6 +162,8 @@ function Instructions() {
             <li>Subtract 1 for February in a leap year: 4</li>
         </ul>
         <p>The month offset for February 2024 is 4.</p>
+
+        {illustrateMonth(1, 2024)}
 
         <h2>Practice</h2>
 

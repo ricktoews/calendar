@@ -1,9 +1,10 @@
-const yearTemplate = [0,3,3,6,1,4,6,2,5,0,3,5];
-const leapTemplate = [0,3,4,0,2,5,0,3,6,1,4,6];
-const monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+import { MONTH_DAYS } from "../utils/config";
 
-const isLeap = year => {
-	var result = year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
+const yearTemplate = [0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5];
+const leapTemplate = [0, 3, 4, 0, 2, 5, 0, 3, 6, 1, 4, 6];
+
+export const isLeap = year => {
+	var result = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
 	return result;
 }
 
@@ -31,7 +32,7 @@ export const calc12DigitYear = year => {
 	var jan = calcJan(year);
 	var yearDigits = [];
 	var template = isLeap(year) ? leapTemplate : yearTemplate;
-	yearDigits = template.map(d => (d+jan)%7);
+	yearDigits = template.map(d => (d + jan) % 7);
 	return yearDigits;
 }
 
@@ -39,7 +40,7 @@ export const generateMonthData = ({ year, janDigit, isLeap }) => {
 	var template = isLeap ? leapTemplate : yearTemplate;
 	var data = [];
 	template.forEach((digit, monthNdx) => {
-		let month = { year, month: monthNdx, days: monthDays[monthNdx], blanks: (digit + 1*janDigit) % 7 };
+		let month = { year, month: monthNdx, days: MONTH_DAYS[monthNdx], blanks: (digit + 1 * janDigit) % 7 };
 		data.push(month);
 	});
 	if (isLeap) data[1].days = 29;
