@@ -381,7 +381,7 @@ section .calculation input {
 .month-grid {
   display: inline-grid;
   grid-template-columns: repeat(7, auto);
-  border: 1px solid #aaaaaa;
+  border: 1px solid var(--palette-grey-1);
   border-radius: 5px;
 }
 
@@ -395,7 +395,7 @@ section .calculation input {
 
 .month-grid>.month-offset {
   position: relative;
-  background-color: #ccc;
+  background-color: var(--palette-grey-2_);
 }
 
 .month-grid>.weekday-label {
@@ -417,7 +417,7 @@ section .calculation input {
 .weekly-cycle-grid {
   display: inline-grid;
   grid-template-columns: repeat(7, auto);
-  border: 1px solid #aaaaaa;
+  border: 1px solid var(--palette-grey-1);
   border-radius: 5px;
 }
 
@@ -441,11 +441,11 @@ section .calculation input {
   border-radius: 50%;
   color: white;
   opacity: 1;
-  transition: opacity 0.5s;
 }
 
-.weekly-cycle-grid>div>span.fade {
+.weekly-cycle-grid>div.fade {
   opacity: 0;
+  transition: opacity .5s;
 }
 
 .weekly-cycle-grid>.weekday-label {
@@ -466,4 +466,40 @@ section .calculation input {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 10px;
+}
+
+.leap-year-illustration {
+  display: inline-grid;
+  grid-template-columns: repeat(4, auto);
+  border: 1px solid var(--palette-grey-1);
+  border-radius: 5px;
+}
+
+.leap-year-illustration>div {
+  position: relative;
+  border: 1px solid #eee;
+  width: 50px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leap-year-illustration>div:nth-child(4n) {
+  background-color: var(--palette-4);
+}
+
+.leap-year-illustration>div:nth-child(4n)::after {
+  content: attr(data-ndx);
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  bottom: 2px;
+  right: 2px;
+  background-color: var(--palette-2);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
 }
