@@ -2,59 +2,7 @@ import { useEffect, useState } from "react";
 import { calc12DigitYear, isLeap } from "./calendar-helper";
 import { MONTH_DAYS, MONTH_NAMES, WEEKDAYS } from "../utils/config";
 import IllustrateWeeklyCycle from "./IllustrateWeeklyCycle";
-
-const generateMonthDates = (offset, days) => {
-    const monthDates = [];
-    for (let i = 0; i < offset; i++) {
-        monthDates.push('');
-    }
-    for (let i = 0; i < days; i++) {
-        monthDates.push(i + 1);
-    }
-    while (monthDates.length % 7 > 0) {
-        monthDates.push('');
-    }
-    return monthDates;
-}
-
-
-const generateMonthOffsetOverlay = (offset) => {
-    const overlayWidth = offset * 50;
-    const style = {
-        position: 'absolute',
-        zIndex: 10,
-        width: `${overlayWidth}px`,
-        height: '45px',
-        background: 'rgba(128,128,128, .4)',
-        color: 'white',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-    const code = <div style={style} className="offset-overlay">Month Offset</div>;
-    return code;
-}
-const illustrateMonth = (monthNdx, year) => {
-    const monthHeading = MONTH_NAMES[monthNdx] + ' ' + year;
-    const monthOffsets = calc12DigitYear(year);
-    const monthOffset = monthOffsets[monthNdx];
-    const leapDay = isLeap(year) ? 1 : 0;
-    const Jan2025 = generateMonthDates(monthOffset, MONTH_DAYS[monthNdx] + leapDay);
-    const offsetOverlay = generateMonthOffsetOverlay(monthOffset);
-    let isMonthOffset = true;
-    const code = <div className="month-grid">
-        <div className="month-heading">{monthHeading}</div>
-        {WEEKDAYS.map(wd => <div key={wd} className="weekday-label">{wd}</div>)}
-        {Jan2025.map((md, key) => {
-            if (md) isMonthOffset = false;
-            if (isMonthOffset && key === 0) return <div key={key} className="month-offset">{offsetOverlay}{md}</div>
-            else if (isMonthOffset) return <div key={key} className="month-offset">{md}</div>
-            return <div key={key}>{md}</div>
-        })}
-    </div>
-    return code;
-}
-
+import IllustrateMonth from "./IllustrateMonth";
 
 const showDayInWeeklyCycle = (day) => {
     const days = [...Array(day).keys()].map(d => d + 1);
@@ -92,21 +40,18 @@ function Instructions() {
 
         <h2>Introduction</h2>
 
-        <p>It really just comes down to the position of a day within the weekly cycle.</p>
+        <p>It really just comes down to the position of a day within the weekly cycle. Day 1 is Sunday, day 2 is Monday, and so on.</p>
 
-        <p>The first day is Sunday, the fifth is Thursday, the 17th is Tuesday, and so on.</p>
-
-        <div><strong>The 17th day in the weekly cycle:</strong></div>
+        <p>When the position of the day is more than 7, you can just divide by 7 and use the remainder. For example, the 17th is the same as the 3rd day.</p>
 
         <IllustrateWeeklyCycle day="17"></IllustrateWeeklyCycle>
 
-        <p>When the position of the day is more than 7, you can just divide by 7 and use the remainder &mdash; in this case, 3. So the 17th day is the same as the 3rd day.</p>
-
+        {/* 
         <p>The term for getting the remainder of one number when dividing by another is <em>modulo</em>: In this case, 17 <em>modulo</em> 7 is 3.</p>
+*/}
+        <p>If every month began on a Sunday, the date itself would give you the position of the day in the weekly cycle: it would just be the remainder of the date date divided by 7. As it happens, January 2023 <em>did</em> begin on a Sunday:</p>
 
-        <p>If every month began on a Sunday, the date itself would give you the position of the day in the weekly cycle: it would just be the date modulo 7. As it happens, January 2023 <em>did</em> begin on a Sunday:</p>
-
-        {illustrateMonth(0, 2023)}
+        <IllustrateMonth monthNdx="0" year="2023"></IllustrateMonth>
 
         <p>Notice how every date matches the day of the week: January 1 was Sunday, January 4 was Wednesday, Janauary 23 was Monday, and so on.</p>
 
@@ -116,7 +61,7 @@ function Instructions() {
 
         <p>For example, February 2023 started on a Wednesday:</p>
 
-        {illustrateMonth(1, 2023)}
+        <IllustrateMonth monthNdx="1" year="2023"></IllustrateMonth>
 
         <p>Notice that there are three empty spaces before February 1, 2023. These spaces are what we'll call the <em>month offset</em>. A calendar works by adding the month offset to the date, so that the date lines up with the correct day in the weekly cycle.</p>
 
@@ -146,7 +91,7 @@ function Instructions() {
 
         <p>There are 9 leap years, so add 9 + 37, for a total of 46. Dividing by 7 leaves a remainder of 4, so the year offset for 2037 is 4. Now, add the generic month offset for July. 4 + 6 = 10, which leaves a remainder of 3. The month offset for July 2037 is 3:</p>
 
-        {illustrateMonth(6, 2037)}
+        <IllustrateMonth monthNdx="6" year="2037"></IllustrateMonth>
 
         <h2>Leap Years</h2>
 
@@ -163,7 +108,7 @@ function Instructions() {
         </ul>
         <p>The month offset for February 2024 is 4.</p>
 
-        {illustrateMonth(1, 2024)}
+        <IllustrateMonth monthNdx="1" year="2024"></IllustrateMonth>
 
         <h2>Practice</h2>
 

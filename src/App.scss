@@ -16,6 +16,7 @@ $palette-5: #E9EB9E;
 $palette-grey-1: #cccccc;
 $palette-grey-2: #666666;
 $palette-grey-3: #9a9a9a;
+$palette-grey-4: #e3e3e3;
 
 :root {
   --palette-1: #14080E;
@@ -26,6 +27,7 @@ $palette-grey-3: #9a9a9a;
   --palette-grey-1: #cccccc;
   --palette-grey-2: #666666;
   --palette-grey-3: #9a9a9a;
+  --palette-grey-4: #e3e3e3;
 }
 
 input::-webkit-outer-spin-button,
@@ -360,6 +362,11 @@ section .calculation input {
   outline: none;
 }
 
+.calendar-lab {
+  display: inline-block;
+  max-width: 100%;
+}
+
 .calendar-lab button {
   border: none;
   font-size: 1.5rem;
@@ -368,6 +375,12 @@ section .calculation input {
   border-radius: 20px;
   margin: 0 5px;
 
+}
+
+.calendar-lab .button-wrapper {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }
 
 /* INSTRUCTIONS */
@@ -386,6 +399,7 @@ section .calculation input {
 }
 
 .month-grid>div:not(.month-heading):not(.weekday-label) {
+  position: relative;
   border: 1px solid #eee;
   width: 50px;
   height: 45px;
@@ -393,9 +407,8 @@ section .calculation input {
   text-align: right;
 }
 
-.month-grid>.month-offset {
-  position: relative;
-  background-color: var(--palette-grey-2_);
+.month-grid>div:not(.month-heading):not(.weekday-label):not(.month-offset) {
+  cursor: pointer;
 }
 
 .month-grid>.weekday-label {
@@ -412,6 +425,50 @@ section .calculation input {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.month-grid .selected-weekday {
+  background-color: var(--palette-3);
+}
+
+.selected-date {
+  background-color: var(--palette-grey-4);
+}
+
+/*
+.month-grid.weekly-cycles>div {
+  font-size: 1em;
+}
+*/
+
+.month-grid .offset-overlay {
+  position: absolute;
+  z-index: 10;
+  height: 45px;
+  background: rgba(128, 128, 128, .4);
+  color: white;
+  display: flex;
+  justify-Content: center;
+  align-items: center;
+}
+
+.month-grid.weekly-cycles div.offset-overlay {
+  display: none;
+}
+
+.month-grid.weekly-cycles>div::after {
+  content: attr(data-ndx);
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: 2px;
+  right: 2px;
+  background-color: var(--palette-3);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
 }
 
 .weekly-cycle-grid {
