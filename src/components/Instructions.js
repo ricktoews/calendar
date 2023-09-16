@@ -40,7 +40,17 @@ function Instructions() {
 
         <h2>tl;dr</h2>
 
-        <p>(year offset + month pattern offset + date + century offset) modulo 7</p>
+        <p><em>generic month offsets</em>: 0 3 3 6 1 4 6 2 5 0 3 5</p>
+
+        <p><em>century offset</em>: 0 for 2000s, 1 for 1900s; others divulged below.</p>
+
+        <p><em>year offset</em>: <em>two-digit year</em> + <em>number of leap days</em> + <em>century offset</em></p>
+
+        <p><em>month offset</em> = <em>generic month offset</em> + <em>year offset</em></p>
+
+        <p>(month offset + date) modulo 7</p>
+
+
 
         <p><em>Or, if for January or February in a leap year:</em></p>
 
@@ -66,9 +76,9 @@ function Instructions() {
 
         <p>All month offsets are in the range of 0 to 6. The offset of any given month is just the offset of the previous month plus the number of days in that month. The offset for August 2023 is 2, and there are 31 days in August. The sum of 2 and 31 is 33, and the remainder of 33 divided by 7 is 5.</p>
 
-        <p>Because the number of days in a month doesn't change (except February in a leap year), the month offsets follow the same pattern from year to year. If you calculate the offset for a given year, you can get any month offset in that year by adding the month pattern offset.</p>
+        <p>Because the number of days in a month doesn't change (except February in a leap year), the month offsets follow the same pattern from year to year. If you calculate the offset for a given year, you can get any month offset in that year by adding the generic month offset.</p>
 
-        <p>Month pattern offsets:</p>
+        <p>Generic month offsets:</p>
 
         <div className="month-offsets">
             <div>January: 0</div>
@@ -85,7 +95,7 @@ function Instructions() {
             <div>December: 5</div>
         </div>
 
-        <p>Pro tip: <em>Memorize this pattern</em>.</p>
+        <p>Pro tip: <em>Memorize these</em>.</p>
 
         <h2>Year Offsets</h2>
 
