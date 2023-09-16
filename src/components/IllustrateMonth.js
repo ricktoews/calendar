@@ -27,7 +27,7 @@ const generateMonthOffsetOverlay = (offset) => {
 }
 
 
-function IllustrateMonth({ monthNdx, year }) {
+function IllustrateMonth({ monthNdx, year, weekly = false }) {
     const monthRef = useRef();
     const [whichGrid, setWhichGrid] = useState('month');
     const [selectedDateState, setSelectedDateState] = useState([]);
@@ -94,11 +94,11 @@ function IllustrateMonth({ monthNdx, year }) {
             return <div key={key} data-ndx={day} onClick={selectDate}>{md}</div>
         })}
     </div>
-        <div className="button-wrapper">
+        {weekly && <div className="button-wrapper">
             {whichGrid === 'month' ? <button onClick={toggleMonthWeeklyCycle}>Show Weekly Cycle</button>
                 : <button onClick={toggleMonthWeeklyCycle}>Show Month</button>}
 
-        </div>
+        </div>}
     </div>
     return code;
 }

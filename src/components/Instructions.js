@@ -42,15 +42,76 @@ function Instructions() {
 
         <p>It really just comes down to the position of a day within the weekly cycle. Day 1 is Sunday, day 2 is Monday, and so on.</p>
 
-        <p>When the position of the day is more than 7, you can just divide by 7 and use the remainder. For example, the 17th is the same as the 3rd day.</p>
+        <p>When the position of the day is more than 7, you can just divide by 7 and use the remainder. For example, the 8th day is the same as the 1st day.</p>
 
-        <IllustrateWeeklyCycle day="17"></IllustrateWeeklyCycle>
+        <IllustrateWeeklyCycle day="8"></IllustrateWeeklyCycle>
 
+        <p>To get the position of the day from the date, you need the <em>month offset</em>. The <em>month offset</em> is just the number of placeholders in the week before the first day of the month. You've seen this many times on a conventional calendar. Here, for example, is the calendar for September, 2023, which has a <em>month offset</em> of 5 days:</p>
+
+        <IllustrateMonth monthNdx="8" year="2023"></IllustrateMonth>
+
+        <p>To determine the day of the week, you just add the <em>month offset</em> to the date. So the day of the week for September 1 is 5 + 1 = 6--the 6th day of the week: Friday.</p>
+
+        <h2>Month Offsets</h2>
+
+        <p>All month offsets are in the range of 0 to 6. The offset of any given month is just the offset of the previous month plus the number of days in that month. The offset for August 2023 is 2, and there are 31 days in August. The sum of 2 and 31 is 33, and the remainder of 33 divided by 7 is 5.</p>
+
+        <p>Because the number of days in a month doesn't change (except February in a leap year), the month offsets follow the same pattern from year to year. If you calculate the offset for a given year, you can get any month offset in that year.</p>
+
+        <p>Here's the pattern:</p>
+
+        <div className="month-offsets">
+            <div>January: 0</div>
+            <div>February: 3</div>
+            <div>March: 3</div>
+            <div>April: 6</div>
+            <div>May: 1</div>
+            <div>June: 4</div>
+            <div>July: 6</div>
+            <div>August: 2</div>
+            <div>September: 5</div>
+            <div>October: 0</div>
+            <div>November: 3</div>
+            <div>December: 5</div>
+        </div>
+
+        <h2>Year Offsets</h2>
+
+        <p>Just like the month offset, you can think of the <em>year offset</em> as the number of placeholders in the week before the first day of the year. (And yes, you have to adjust January and February in a leap year, but that's the basic idea.)</p>
+
+        <p>To find the day of the week for a date in a particular year:</p>
+        <blockquote>year offset + month offset + date</blockquote>
+        <p>The sum will be the position of the day within the week. (Of course, it's usually convenient to divide by 7 and take the remainder.)</p>
+
+        <p>The year 2023 happens to have begun on the 1st day of the week, so the year offset for 2023 is 0. To find the day of the week for September 16, you would add the year offset (0), the month offset for September (5), and the date (16). The 21st day in the weekly cycle is also the 7th, or Saturday.</p>
+
+        <p>So how do we get the year offset?</p>
+
+        <p>Start with the two-digit year, and divde that by 4 to get the number of leap days from 2001 to that year.</p>
+
+        <p>For 2023, the two-digit year is 23. The whole number of 23 divided by 4 is 5, so there are 5 leap days from 2001 to 2023. Add that to 23, and you get 28. Since 28 days is exactly four weekly cycles, the offset for 2023 is 0.</p>
+
+
+        <h2>Leap Years</h2>
+
+        <p>If the date you want is in January or February of a leap year, there's one small adjust you need to make. To compensate for the leap day, just subtract 1 at some point in your process. Let's take an example: Febuary 4, 2024.</p>
+
+        <p>Start with the <em>year offset</em>: 24 + 6 = 30 = 2. The <em>month offset</em> for February is the year offset + 3, so 5. Add that to the date, for a total of 9, or 2. And subtract 1 to adjust for the leap year, giving a result of 1. February 4, 2024 is on the 1st day of the week.</p>
+
+        <h2>Other Centuries</h2>
+
+        <p>As with months and years, each century has its own--you guessed it--offset. The offset for the 21st century happens to be 0, which is why there's no need to add one when finding the day of the week this century.</p>
+
+        <p>The 20th century had an offset of 1. If you want to find the day of the week for a date in the 1900s, just follow the process above, and add 1.</p>
+
+        <p>The 19th century had an offset of 3, and the 18th century had an offset of 5. The 1600s are exactly the same as the 2000s, so September 16, 1623 was a Saturday, just like September 16, 2023.</p>
+
+        <p>For earlier centuries, you can take the integer value of any year in that century divided by 100, and subtract that from 19. So for the 1500s, the offset is 4; for the 1400s, it's 5; for the 700s, it's 12 = 5; &c.</p>
+
+        <p>Unless the date is after October 4, 1582. In that case, just treat it as though it was in the 1900s instead of the 1500s.</p>
         {/* 
-        <p>The term for getting the remainder of one number when dividing by another is <em>modulo</em>: In this case, 17 <em>modulo</em> 7 is 3.</p>
-*/}
-        <p>If every month began on a Sunday, the date itself would give you the position of the day in the weekly cycle: it would just be the remainder of the date date divided by 7. As it happens, January 2023 <em>did</em> begin on a Sunday:</p>
 
+        <hr />
         <IllustrateMonth monthNdx="0" year="2023"></IllustrateMonth>
 
         <p>Notice how every date matches the day of the week: January 1 was Sunday, January 4 was Wednesday, Janauary 23 was Monday, and so on.</p>

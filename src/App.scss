@@ -30,6 +30,11 @@ $palette-grey-4: #e3e3e3;
   --palette-grey-4: #e3e3e3;
 }
 
+:root {
+  --spacing-above: 20px;
+  --spacing-below: 20px;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -146,6 +151,10 @@ header {
   background-color: #ccc;
 }
 
+
+h2 {
+  margin-top: var(--spacing-above);
+}
 
 .year-12-digit-wrapper {
   margin-right: 10px;
@@ -365,6 +374,7 @@ section .calculation input {
 .calendar-lab {
   display: inline-block;
   max-width: 100%;
+  margin-bottom: var(--spacing-below);
 }
 
 .calendar-lab button {
@@ -476,6 +486,7 @@ section .calculation input {
   grid-template-columns: repeat(7, auto);
   border: 1px solid var(--palette-grey-1);
   border-radius: 5px;
+  margin-bottom: var(--spacing-below);
 }
 
 .weekly-cycle-grid>div:not(.weekday-label) {
