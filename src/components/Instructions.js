@@ -48,13 +48,13 @@ function Instructions() {
 
         <p><em>month offset</em> = <em>generic month offset</em> + <em>year offset</em></p>
 
-        <p>(month offset + date) modulo 7</p>
+        <p><strong>Day of week: (month offset + date) modulo 7</strong></p>
 
 
 
         <p><em>Or, if for January or February in a leap year:</em></p>
 
-        <p>(above - 1) modulo 7</p>
+        <p>(month offset + date - 1) modulo 7</p>
 
         <h2>Introduction</h2>
 
