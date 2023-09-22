@@ -6,26 +6,28 @@ function generateCodeTableStyle() {
         <thead>
             <tr><th colSpan="6">Generic Month Offsets</th></tr>
         </thead>
-        <tr>
-            <td>January:</td><td>0</td>
-            <td>February:</td><td>3</td>
-            <td>March:</td><td>3</td>
-        </tr>
-        <tr>
-            <td>April:</td><td>6</td>
-            <td>May:</td><td>1</td>
-            <td>June:</td><td>4</td>
-        </tr>
-        <tr>
-            <td>July:</td><td>6</td>
-            <td>August:</td><td>2</td>
-            <td>September:</td><td>5</td>
-        </tr>
-        <tr>
-            <td>October:</td><td>0</td>
-            <td>November:</td><td>3</td>
-            <td>December:</td><td>5</td>
-        </tr>
+        <tbody>
+            <tr>
+                <td>January:</td><td>0</td>
+                <td>February:</td><td>3</td>
+                <td>March:</td><td>3</td>
+            </tr>
+            <tr>
+                <td>April:</td><td>6</td>
+                <td>May:</td><td>1</td>
+                <td>June:</td><td>4</td>
+            </tr>
+            <tr>
+                <td>July:</td><td>6</td>
+                <td>August:</td><td>2</td>
+                <td>September:</td><td>5</td>
+            </tr>
+            <tr>
+                <td>October:</td><td>0</td>
+                <td>November:</td><td>3</td>
+                <td>December:</td><td>5</td>
+            </tr>
+        </tbody>
     </table>
 }
 
