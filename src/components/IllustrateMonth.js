@@ -96,36 +96,34 @@ function IllustrateMonth({ codeStyle = 'grid', monthNdx, year, weekly = false })
     }
 
     const illustrateMonthTableStyle = () => {
-        const code = <div className="calendar-lab">
-            <table ref={monthRef} className="month-table">
-                <thead>
-                    <tr>
-                        <th colSpan="7" className="month-heading">{monthHeading}</th>
-                    </tr>
-                    <tr>
-                        {WEEKDAYS.map(wd => {
-                            const classes = ['weekday-label'];
-                            if (wd === selectedWeekday) classes.push('selected-weekday');
-                            return <th key={wd} className={classes.join(' ')}>{wd}</th>
-                        })}
-
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {monthRows.map((row, rowNdx) => {
-                        return <tr key={rowNdx}>
-                            {row.map((md, key) => {
-                                const day = key + 1;
-                                if (md) isMonthOffset = false;
-                                else if (isMonthOffset) return <td key={key} data-ndx={day} className="month-offset">{md}</td>
-                                return <td key={key} data-ndx={day} onClick={selectDate}>{md}</td>
-                            })}
-                        </tr>
+        const code = <table ref={monthRef} className="month-table">
+            <thead>
+                <tr>
+                    <th colSpan="7" className="month-heading">{monthHeading}</th>
+                </tr>
+                <tr>
+                    {WEEKDAYS.map(wd => {
+                        const classes = ['weekday-label'];
+                        if (wd === selectedWeekday) classes.push('selected-weekday');
+                        return <th key={wd} className={classes.join(' ')}>{wd}</th>
                     })}
-                </tbody>
-            </table>
-        </div>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                {monthRows.map((row, rowNdx) => {
+                    return <tr key={rowNdx}>
+                        {row.map((md, key) => {
+                            const day = key + 1;
+                            if (md) isMonthOffset = false;
+                            else if (isMonthOffset) return <td key={key} data-ndx={day} className="month-offset">{md}</td>
+                            return <td key={key} data-ndx={day} onClick={selectDate}>{md}</td>
+                        })}
+                    </tr>
+                })}
+            </tbody>
+        </table>
         return code;
     }
 
