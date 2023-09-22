@@ -41,7 +41,14 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+hr {
+  opacity: 0;
+  page-break-after: always;
+}
 
+h1 {
+  text-align: center;
+}
 
 .App {
   position: relative;
@@ -402,6 +409,12 @@ section .calculation input {
   margin-bottom: var(--spacing-below);
 }
 
+.month-offsets-table th {
+  text-align: center;
+  background: black;
+  color: white;
+}
+
 .month-grid {
   display: inline-grid;
   grid-template-columns: repeat(7, auto);
@@ -410,6 +423,15 @@ section .calculation input {
 }
 
 .month-grid>div:not(.month-heading):not(.weekday-label) {
+  position: relative;
+  border: 1px solid #eee;
+  width: 50px;
+  height: 45px;
+  padding-right: 4px;
+  text-align: right;
+}
+
+.month-table td {
   position: relative;
   border: 1px solid #eee;
   width: 50px;
@@ -431,11 +453,25 @@ section .calculation input {
   background: var(--palette-4);
 }
 
+.month-table th.weekday-label {
+  height: 20px;
+  width: 50px;
+  color: white;
+  font-size: .75em;
+  text-align: center;
+  background: #000;
+}
+
 .month-grid>.month-heading {
   grid-column: 1 / 8;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.month-table th.month-heading {
+  text-align: center;
+  background: black;
 }
 
 .month-grid .selected-weekday {
@@ -488,6 +524,7 @@ section .calculation input {
   border: 1px solid var(--palette-grey-1);
   border-radius: 5px;
   margin-bottom: var(--spacing-below);
+  cursor: pointer;
 }
 
 .weekly-cycle-grid>div:not(.weekday-label) {
@@ -498,6 +535,14 @@ section .calculation input {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.weekly-cycle-table td {
+  border: 1px solid #eee;
+  width: 50px;
+  height: 45px;
+  padding-right: 4px;
+  text-align: center;
 }
 
 .weekly-cycle-grid>div>span {
@@ -524,6 +569,15 @@ section .calculation input {
   font-size: .75em;
   text-align: center;
   background: var(--palette-4);
+}
+
+.weekly-cycle-table th.weekday-label {
+  height: 20px;
+  width: 50px;
+  color: white;
+  font-size: .75em;
+  text-align: center;
+  background: #000;
 }
 
 .weekly-cycle-grid>.weekday-label.matched-day {

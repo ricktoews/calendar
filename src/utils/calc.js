@@ -1,4 +1,4 @@
-import { JULIAN_CENTURY_CONST, MONTH_OFFSET_TEMPLATE } from "./config";
+import { WEEKDAYS, JULIAN_CENTURY_CONST, MONTH_OFFSET_TEMPLATE } from "./config";
 
 export const isLeapYear = (year) => {
     let isLeap = false;
@@ -62,3 +62,34 @@ export const generate12DigitCalendarFromOffset = (yearOffset, isLeap) => {
     const calendar12Digit = monthDigits.join('');
     return calendar12Digit;
 }
+
+
+// DON'T CURRENTLY USE, BUT SURE: KEEP THE CODE.
+const showDayInWeeklyCycle = (day) => {
+    const days = [...Array(day).keys()].map(d => d + 1);
+    const thisDay = (day - 1) % 7;
+    const code = <div className="weekly-cycle-grid">
+        {WEEKDAYS.map((wd, ndx) => {
+            let classes = 'weekday-label';
+            if (ndx === thisDay) classes += ' matched-day';
+            return <div key={wd} className={classes}>{wd}</div>
+        })}
+        {days.map((day, key) => {
+            return <div key={key}><span>{day}</span></div>
+        })}
+    </div>
+    return code;
+}
+
+const illustrateLeapYears = (year) => {
+    const centuryYear = Math.floor(year / 100) * 100;
+    const years = [];
+    for (let y = centuryYear + 1; y <= year; y++) { years.push(y); }
+    const code = <div className="leap-year-illustration">
+        {years.map((y, key) => {
+            return <div data-ndx={(key + 1) / 4} key={key}>{y}</div>
+        })}
+    </div>
+    return code;
+}
+
