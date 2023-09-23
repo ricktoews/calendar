@@ -103,7 +103,7 @@ function Instructions() {
 
         <p>If the date you want is in January or February of a leap year, there's one small adjustment you need to make. To compensate for the leap day, just subtract 1 at some point in your process.</p>
 
-        <p>Let's take an example: Febuary 4, 2024.</p>
+        <p>Let's take an example: February 4, 2024.</p>
 
         <ul>
             <li>Start with the <em>year offset</em>: 24 + 6 = 30 = 2.</li>
