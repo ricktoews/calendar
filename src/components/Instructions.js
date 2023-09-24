@@ -14,6 +14,7 @@ function Instructions() {
 
         <h1>Calculate Day of Week</h1>
 
+        <p><a href="calendar-instructions.pdf">PDF</a></p>
         <h2>Summary</h2>
 
         <p><em>generic month offsets</em>: 0 3 3 6 1 4 6 2 5 0 3 5</p>
