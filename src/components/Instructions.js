@@ -24,11 +24,6 @@ function Instructions() {
 
         <h1>Calculate Day of Week</h1>
 
-        <div className="calendar-lab">
-            <button onClick={download} data-file="calendar-instructions.pdf">Download pdf</button>
-            <button onClick={download} data-file="calendar-instructions.epub">Download epub</button>
-        </div>
-
         <h2>Summary</h2>
 
         <p><em>generic month offsets</em>: 0 3 3 6 1 4 6 2 5 0 3 5</p>
