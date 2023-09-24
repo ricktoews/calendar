@@ -193,7 +193,7 @@ function Calendar(props) {
   }, [currentYearRef.current]);
 
   const years = [];
-  for (let i = 0; i < 2100; i++) {
+  for (let i = 0; i < 2400; i++) {
     years.push(0 + i);
   }
   const d = new Date();

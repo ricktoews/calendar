@@ -10,11 +10,25 @@ function Instructions() {
         window.scrollTo(0, 0);
     }, []);
 
+    const download = (e) => {
+        e.preventDefault();
+        const el = e.currentTarget;
+        const file = el.dataset.file;
+
+        const a = document.createElement('a');
+        a.href = file;
+        a.click();
+    }
+
     return (<div>
 
         <h1>Calculate Day of Week</h1>
 
-        <p><a href="calendar-instructions.pdf">PDF</a></p>
+        <div className="calendar-lab">
+            <button onClick={download} data-file="calendar-instructions.pdf">Download pdf</button>
+            <button onClick={download} data-file="calendar-instructions.epub">Download epub</button>
+        </div>
+
         <h2>Summary</h2>
 
         <p><em>generic month offsets</em>: 0 3 3 6 1 4 6 2 5 0 3 5</p>
@@ -31,6 +45,8 @@ function Instructions() {
 
         <p><em>For January or February in a leap year, subtract 1 from <em>month offset</em>.</em></p>
 
+        <div className="epub-page-break" />
+
         <h2>Introduction</h2>
 
         <p>It really just comes down to the position of a day within the weekly cycle. Day 1 is Sunday, day 2 is Monday, and so on.</p>
@@ -43,7 +59,8 @@ function Instructions() {
 
         <p>To get the position of the day from the date, you need the <em>month offset</em>.</p>
 
-        <hr />
+        <div className="epub-page-break" />
+        <div className="pdf-page-break" />
 
         <h2>Month Offset</h2>
 
@@ -74,7 +91,8 @@ function Instructions() {
 
         <MonthOffsets codeStyle={codeStyle} />
 
-        <hr />
+        <div className="epub-page-break" />
+        <div className="pdf-page-break" />
 
         <h2>Year Offsets</h2>
 
@@ -139,6 +157,8 @@ function Instructions() {
         <p>For earlier centuries, you can take the integer value of any year in that century divided by 100, and subtract that from 19. So for the 1500s, the offset is 4; for the 1400s, it's 5; for the 700s, it's 12 = 5; &c.</p>
 
         <p>As a random curiosity, this would mean that dates in the 1200s, as in the 1600s, had the same weekdays as the same dates in the 2000s. That's right: September 21, 1223 was a Thursday, just like September 21, 2023.</p>
+
+        <div className="epub-page-break" />
 
         <h2>1582</h2>
 
