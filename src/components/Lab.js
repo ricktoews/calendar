@@ -113,7 +113,7 @@ function Lab() {
         reset();
 
         // Actually get random year.
-        const randomYear = Math.floor(Math.random() * 100) + 2000;
+        const randomYear = Math.floor(Math.random() * 400) + 1600;
         setYear(randomYear);
         setTwoDigitYear(calcTwoDigitYear(randomYear));
         const cal = generate12DigitCalendarFromYear(randomYear);
@@ -168,7 +168,12 @@ function Lab() {
     }
 
     const handleCenturyOffset = e => {
-        setCenturyOffset(toInt(e.currentTarget.value));
+        const value = toInt(e.currentTarget.value);
+        const yearDiv100 = Math.floor(year / 100);
+        const targetValue = (7 - yearDiv100 % 4 * 2) % 7;
+        const status = value === targetValue ? STEP_PASS : STEP_FAIL;
+        setCenturyOffset(value);
+        setStepStatus(status);
     }
 
     const handleCalendarInput = e => {
@@ -197,13 +202,26 @@ function Lab() {
 
     function showStep(step) {
         const stepCode = [];
+
         if (step >= 0) {
             stepCode.push(<section key={0} className="grid-container">
                 <div><div className="step-number">Step 1</div></div>
-                <div>
-                    {step === 0 ? `Is ${year} a leap year?` : (isLeap ? 'Leap year' : 'Non-leap year')}
-                </div>
+                <div>{step === 0 ? `Century Offset for ${year}` : `Century Offset ${centuryOffset}`}</div>
                 {step === 0 && (<>
+                    <div></div>
+                    <div className="calculation">
+                        <input type="text" ref={centuryOffsetRef} onChange={handleCenturyOffset} style={{ width: '50px' }} />
+                    </div>
+                </>)}
+            </section>)
+        }
+        if (step >= 1) {
+            stepCode.push(<section key={1} className="grid-container">
+                <div><div className="step-number">Step 2</div></div>
+                <div>
+                    {step === 1 ? `Is ${year} a leap year?` : (isLeap ? 'Leap year' : 'Non-leap year')}
+                </div>
+                {step === 1 && (<>
                     <div></div>
                     <div>
                         <button onClick={handleBtnLeapYear}>Leap year</button> <button onClick={handleBtnNotLeapYear}>Non-leap year</button>
@@ -213,14 +231,14 @@ function Lab() {
             </section >);
         }
 
-        if (step >= 1) {
-            stepCode.push(<section key={1} className="grid-container">
-                <div><div className="step-number">Step 2</div></div>
+        if (step >= 2) {
+            stepCode.push(<section key={2} className="grid-container">
+                <div><div className="step-number">Step 3</div></div>
                 <div>
-                    {step === 1 ? `Find the number of leap days.`
+                    {step === 2 ? `Find the number of leap days.`
                         : `Leap days: ${leapDays}`}
                 </div>
-                {step === 1 && (<>
+                {step === 2 && (<>
                     <div></div>
                     <div className="calculation">
                         <div className="large-number">{twoDigitYear}</div>
@@ -232,14 +250,14 @@ function Lab() {
             </section>);
         }
 
-        if (step >= 2) {
-            stepCode.push(<section key={2} className="grid-container">
+        if (step >= 3) {
+            stepCode.push(<section key={3} className="grid-container">
                 <div><div className="step-number">Step 3</div></div>
                 <div>
-                    {step === 2 ? `Find the year offset.`
+                    {step === 3 ? `Find the year offset.`
                         : `Year offset: ${rawYearOffset}`}
                 </div>
-                {step === 2 && (<>
+                {step === 3 && (<>
                     <div></div>
                     <div className="calculation">
                         <div className="large-number">{twoDigitYear}</div>
@@ -251,14 +269,14 @@ function Lab() {
             </section>);
         }
 
-        if (step >= 3) {
-            stepCode.push(<section key={3} className="grid-container">
-                <div><div className="step-number">Step 4</div></div>
+        if (step >= 4) {
+            stepCode.push(<section key={4} className="grid-container">
+                <div><div className="step-number">Step 5</div></div>
                 <div>
-                    {step === 3 ? `Reduce the Year Offset.`
+                    {step === 4 ? `Reduce the Year Offset.`
                         : `${rawYearOffset} % 7 = ${mod7YearOffset}`}
                 </div>
-                {step === 3 && (<>
+                {step === 4 && (<>
                     <div></div>
                     <div className="calculation">
                         <div className="large-number">{rawYearOffset}</div>
@@ -270,9 +288,9 @@ function Lab() {
             </section>);
         }
 
-        if (step >= 4) {
-            stepCode.push(<section key={4} className="grid-container">
-                <div><div className="step-number">Step 5</div></div>
+        if (step >= 5) {
+            stepCode.push(<section key={5} className="grid-container">
+                <div><div className="step-number">Step 6</div></div>
                 <div>Complete the 12-digit Calendar </div>
                 <div></div>
                 <div className="align-top">
@@ -307,10 +325,10 @@ function Lab() {
         {roundStatus !== ROUND_COMPLETE && (<>{showStep(currentStep).map(step => step)}<hr /></>)
         }
 
-        {year < 2000 || year > 2099 ? <>
+        {/*year < 2000 || year > 2099 ? <>
             <div>Century Offset</div>
             <input type="text" ref={centuryOffsetRef} onChange={handleCenturyOffset} />
-        </> : null}
+    </> : null*/}
 
 
 
